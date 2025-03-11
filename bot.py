@@ -98,7 +98,7 @@ TRANSLATIONS = {
         'premium_benefits': "Your benefits:\n✨ Reduced rating loss (-3 instead of -5)\n✨ Increased rating gain (+7 instead of +5)\n✨ Access to premium lobby (/premium_lobby)\n✨ Additional +2 rating points in premium games!",
         'premium_offer': "Get Premium Status!",
         'payment_info': "Payment Information:\nCard: 5168 7451 6813 4952\nPrice: USD 5 for lifetime\nContact @neco_12 for details",
-        'basic_commands': "📋 Basic Commands:\n/lobby - Join regular game lobby\n/play_bot - Play against bot\n/cancel - Leave current game or lobby\n/rating - Check your rating\n/top - View top players\n/donate - Get premium status",
+        'basic_commands': "📋 Basic Commands:\n/lobby - Join regular game lobby\n/play_bot - Play against bot\n/cancel - Leave current game or lobby\n/rating - Check your rating\n/top - View top players\n/premium - Get premium status",
         'premium_commands': "\n🌟 Premium Commands:\n/premium_lobby - Join premium lobby",
         'premium_locked': "\n🔒 Get premium status to access more features!",
         'premium_game': "🌟 Premium game",
@@ -113,9 +113,11 @@ Available commands:
 /premium_lobby - Join premium lobby (premium only)
 /rating - Check your rating
 /top - View top players
-/donate - Get premium status
+/premium - Get premium status
 /language - Change language
-/help - Show all commands""",
+/donate - Support the developer
+/send_admin - Send message to admin
+/cancel - Leave current game or lobby""",
         'top_players_header': "🏆 Top Players:",
         'top_player_entry': "{medal} {name} {premium}: {rating} points\n",
         'premium_status': "🌟 Premium",
@@ -137,8 +139,10 @@ Your benefits:
         'game_over': "{game_type} Game {result}!\nRating: {points:+d} points",
         'bot_game_over_win': "🎉 Congratulations! You won against the bot!",
         'bot_game_over_lose': "💔 Game Over! The bot won!",
-        'bot_game_over_draw': "🤝 It's a draw with the bot!",
+        'bot_game_over_draw': "🤝 This is a draw!",
         'bot_thinking': "Bot is thinking...",
+        'donate_title': "💳 Donate to the bot developer",
+        'donate_info': "💳 Card: 5168 7451 6813 4952\n💳 Contact @neco_12 for details",
     },
     'ru': {
         'already_in_lobby': "Вы уже в лобби.",
@@ -183,7 +187,7 @@ Your benefits:
         'premium_benefits': "Ваши преимущества:\n✨ Уменьшенная потеря рейтинга (-3 вместо -5)\n✨ Увеличенный прирост рейтинга (+7 вместо +5)\n✨ Доступ к премиум лобби (/premium_lobby)\n✨ Дополнительные +2 очка рейтинга в премиум играх!",
         'premium_offer': "Получите Премиум Статус!",
         'payment_info': "Информация об оплате:\nКарта: 5168 7451 6813 4952\nЦена: 5 USD навсегда\nСвяжитесь с @neco_12 для деталей",
-        'basic_commands': "📋 Основные команды:\n/lobby - Присоединиться к обычному лобби\n/play_bot - Играть против бота\n/cancel - Покинуть текущую игру или лобби\n/rating - Проверить свой рейтинг\n/top - Посмотреть топ игроков\n/donate - Получить премиум статус",
+        'basic_commands': "📋 Основные команды:\n/lobby - Присоединиться к обычному лобби\n/play_bot - Играть против бота\n/cancel - Покинуть текущую игру или лобби\n/rating - Проверить свой рейтинг\n/top - Посмотреть топ игроков\n/premium - Получить премиум статус",
         'premium_commands': "\n🌟 Премиум команды:\n/premium_lobby - Присоединиться к премиум лобби",
         'premium_locked': "\n🔒 Получите премиум статус для доступа к дополнительным функциям!",
         'premium_game': "🌟 Премиум игра",
@@ -198,9 +202,11 @@ Your benefits:
 /premium_lobby - Присоединиться к премиум лобби
 /rating - Проверить свой рейтинг
 /top - Посмотреть топ игроков
-/donate - Получить премиум статус
+/premium - Получить премиум статус
 /language - Изменить язык
-/help - Показать все команды""",
+/donate - Поддержать разработчика
+/send_admin - Отправить сообщение администратору
+/cancel - Покинуть текущую игру или лобби""",
         'top_players_header': "🏆 Лучшие игроки:",
         'top_player_entry': "{medal} {name} {premium}: {rating} очков\n",
         'premium_status': "🌟 Премиум",
@@ -226,6 +232,8 @@ Your benefits:
         'bot_thinking': "Бот думает...",
         'select_language': "Select your language / Выберите язык",
         'language_set': "Язык изменён на русский!",
+        'donate_title': "💳 Поддержать разработчика бота",
+        'donate_info': "💳 Карта: 5168 7451 6813 4952\n💳 Связаться с @neco_12 для деталей",
     },
     'uk': {
         'already_in_lobby': "Ви вже в лобі.",
@@ -270,7 +278,7 @@ Your benefits:
         'premium_benefits': "Ваші переваги:\n✨ Зменшена втрата рейтингу (-3 замість -5)\n✨ Збільшений приріст рейтингу (+7 замість +5)\n✨ Доступ до преміум лобі (/premium_lobby)\n✨ Додаткові +2 очки рейтингу в преміум іграх!",
         'premium_offer': "Отримайте Преміум Статус!",
         'payment_info': "Інформація про оплату:\nКарта: 5168 7451 6813 4952\nЦіна: 5 USD назавжди\nЗв'яжіться з @neco_12 для деталей",
-        'basic_commands': "📋 Основні команди:\n/lobby - Приєднатися до звичайного лобі\n/play_bot - Грати проти бота\n/cancel - Покинути поточну гру або лобі\n/rating - Перевірити свій рейтинг\n/top - Переглянути топ гравців\n/donate - Отримати преміум статус",
+        'basic_commands': "📋 Основні команди:\n/lobby - Приєднатися до звичайного лобі\n/play_bot - Грати проти бота\n/cancel - Покинути поточну гру або лобі\n/rating - Перевірити свій рейтинг\n/top - Переглянути топ гравців\n/premium - Отримати преміум статус",
         'premium_commands': "\n🌟 Преміум команди:\n/premium_lobby - Приєднатися до преміум лобі",
         'premium_locked': "\n🔒 Отримайте преміум статус для доступу до додаткових функцій!",
         'premium_game': "🌟 Преміум гра",
@@ -285,9 +293,11 @@ Your benefits:
 /premium_lobby - Приєднатися до преміум лобі
 /rating - Перевірити свій рейтинг
 /top - Переглянути топ гравців
-/donate - Отримати преміум статус
+/premium - Отримати преміум статус
 /language - Змінити мову
-/help - Показати всі команди""",
+/donate - Підтримати розробника
+/send_admin - Надіслати повідомлення адміністратору
+/cancel - Покинути поточну гру або лобі""",
         'top_players_header': "🏆 Кращі гравці:",
         'top_player_entry': "{medal} {name} {premium}: {rating} очків\n",
         'premium_status': "🌟 Преміум",
@@ -313,6 +323,8 @@ Your benefits:
         'bot_thinking': "Бот думає...",
         'select_language': "Select your language / Выберите язык / Виберіть мову",
         'language_set': "Мову змінено на українську!",
+        'donate_title': "💳 Підтримати розробника бота",
+        'donate_info': "💳 Карта: 5168 7451 6813 4952\n💳 Зв'язатися з @neco_12 для деталей",
     }
 }
 
@@ -364,6 +376,12 @@ async def lobby_command(message: types.Message):
             
     lobby.append(message.from_user.id)
     await message.answer(get_text('joined_lobby', lang=lang))
+
+@dp.message(Command("send_admin"))
+async def send_admin_command(message: types.Message):
+    user = message.from_user
+    text = " ".join(message.text.split()[1:])
+    await bot.send_message(ADMIN_ID, f"Вам пришло сообщение от {user.id},{user.username},{user.first_name}\n{text}")
 
 @dp.message(Command("move"))
 async def move_command(message: types.Message):
@@ -638,17 +656,18 @@ async def handle_language_selection(callback_query: types.CallbackQuery):
 
 def create_game_keyboard(board, current_player, game_type, game_id):
     keyboard = []
+    # Используем фиксированные эмодзи с дополнительными пробелами для стабильной ширины
+    symbols = {
+        "X": ".....❌.....",  # Крестик с пробелами
+        "O": ".....⭕.....",  # Кружок с пробелами
+        " ": "............"  # Пять пробелов для пустой клетки
+    }
+    
     for i in range(3):
         row = []
         for j in range(3):
             cell = board[i][j]
-            if cell == "X":
-                text = "❌"
-            elif cell == "O":
-                text = "⭕"
-            else:
-                text = "⬜"
-                
+            text = symbols[cell]
             callback_data = f"move_{game_type}_{game_id}_{i}_{j}"
             if len(callback_data) > 64:  # Telegram limit
                 callback_data = "occupied"
@@ -657,6 +676,19 @@ def create_game_keyboard(board, current_player, game_type, game_id):
                 callback_data=callback_data if cell == " " else "occupied"
             ))
         keyboard.append(row)
+    
+    # Добавляем кнопку "Сыграть ещё" для законченных игр с ботом
+    if game_type == "bot" and current_player is None:
+        lang = user_languages.get(int(game_id), 'en')
+        play_again_text = {
+            'en': "▶️ Play Again",
+            'ru': "▶️ Сыграть ещё",
+            'uk': "▶️ Зіграти ще"
+        }[lang]
+        keyboard.append([InlineKeyboardButton(
+            text=play_again_text,
+            callback_data="play_again_bot"
+        )])
     return InlineKeyboardMarkup(inline_keyboard=keyboard)
 
 def format_board_message(game_type, current_player, player_name=None, is_bot_game=False):
@@ -964,6 +996,30 @@ async def occupied_cell_callback(callback_query: types.CallbackQuery):
     lang = user_languages.get(callback_query.from_user.id, 'en')
     await callback_query.answer(get_text('cell_occupied', lang=lang), show_alert=True)
 
+@dp.callback_query(lambda c: c.data == "play_again_bot")
+async def play_again_bot(callback_query: types.CallbackQuery):
+    user_id = callback_query.from_user.id
+    lang = user_languages.get(user_id, 'en')
+    
+    # Создаем новую игру с ботом
+    initial_board = [[" ", " ", " "], [" ", " ", " "], [" ", " ", " "]]
+    game_id = str(user_id)
+    
+    try:
+        msg = await callback_query.message.edit_text(
+            get_text('game_with_bot', lang=lang),
+            reply_markup=create_game_keyboard(initial_board, "X", "bot", game_id)
+        )
+        
+        bot_games[user_id] = {
+            'board': initial_board,
+            'current_player': "X",
+            'message_id': msg.message_id
+        }
+    except Exception as e:
+        print(f"Error starting new bot game: {e}")
+        await callback_query.answer(get_text('error_occurred', lang=lang), show_alert=True)
+
 async def start_game(player1, player2, first_player, is_premium_game):
     try:
         # Basic validation
@@ -1076,6 +1132,14 @@ async def start_game(player1, player2, first_player, is_premium_game):
 
 @dp.message(Command("donate"))
 async def donate_command(message: types.Message):
+    lang = user_languages.get(message.from_user.id, 'en')
+    await message.answer(
+        get_text('donate_title', lang=lang) + "\n\n" +
+        get_text('donate_info', lang=lang)
+    )
+
+@dp.message(Command("premium"))
+async def premium_command(message: types.Message):
     lang = user_languages.get(message.from_user.id, 'en')
     if message.from_user.id in premium_users:
         await message.answer(
@@ -1215,26 +1279,22 @@ async def update_bot_game_state(user_id, board, message_key, **kwargs):
             print(f"Invalid board state for user {user_id}")
             return
             
-        # Специальная обработка для окончания игры
-        if message_key == 'game_over':
-            result = kwargs.get('result', 'draw')
-            if result not in ['win', 'lose', 'draw']:
-                print(f"Invalid game result: {result}")
-                result = 'draw'
-            message = get_text(f'bot_game_over_{result}', lang=lang)
-        else:
-            try:
-                message = get_text(message_key, lang=lang, **kwargs)
-            except KeyError as e:
-                print(f"Error formatting message: {e}")
-                message = get_text('error_occurred', lang=lang)
+        # Определяем, закончилась ли игра
+        is_game_over = message_key in ['bot_game_over_win', 'bot_game_over_lose', 'bot_game_over_draw']
+        current_player = None if is_game_over else kwargs.get('current_player', 'X')
+            
+        try:
+            message = get_text(message_key, lang=lang, **kwargs)
+        except KeyError as e:
+            print(f"Error formatting message: {e}")
+            message = get_text('error_occurred', lang=lang)
             
         try:
             await bot.edit_message_text(
                 message,
                 chat_id=user_id,
                 message_id=game['message_id'],
-                reply_markup=create_game_keyboard(board, "X", "bot", str(user_id))
+                reply_markup=create_game_keyboard(board, current_player, "bot", str(user_id))
             )
         except Exception as e:
             print(f"Error updating bot game message: {e}")
@@ -1243,7 +1303,7 @@ async def update_bot_game_state(user_id, board, message_key, **kwargs):
                 msg = await bot.send_message(
                     user_id,
                     message,
-                    reply_markup=create_game_keyboard(board, "X", "bot", str(user_id))
+                    reply_markup=create_game_keyboard(board, current_player, "bot", str(user_id))
                 )
                 game['message_id'] = msg.message_id
             except Exception as e:
