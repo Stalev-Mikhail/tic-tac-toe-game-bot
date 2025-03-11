@@ -66,7 +66,7 @@ async def start_command(message: types.Message):
         "👋 Welcome to Tic-Tac-Toe Bot!\n\n"
         "🎮 Play against other players or try your luck against the bot!\n\n"
         "Available commands:\n"
-        "/play - Join regular game lobby\n"
+        "/lobby - Join regular game lobby\n"
         "/play_bot - Play against bot\n"
         "/premium_lobby - Join premium lobby (premium only)\n"
         "/rating - Check your rating\n"
@@ -181,12 +181,39 @@ async def cancel_command(message: types.Message):
         for players, game_data in list(game_dict.items()):
             if user_id in players:
                 opponent_id = players[1] if user_id == players[0] else players[0]
-                del game_dict[players]
-                await message.answer("🚪 You have left the game.")
+                game_type = "premium" if players in premium_games else "regular"
+                
+                # Update ratings
+                ratings.setdefault(user_id, 0)
+                ratings.setdefault(opponent_id, 0)
+                
+                # Calculate points - increased penalty for leaving
+                leave_penalty = 5 if user_id in premium_users else 8  # Higher penalty for leaving
+                win_points = 7 if opponent_id in premium_users else 5
+                
+                if game_type == "premium":
+                    win_points += 2
+                    leave_penalty += 2  # Additional penalty for leaving premium game
+                
+                # Update ratings
+                ratings[user_id] = max(0, ratings[user_id] - leave_penalty)
+                ratings[opponent_id] += win_points
+                
+                # Send messages
+                await message.answer(
+                    f"🚪 You have left the game.\n"
+                    f"Rating penalty: -{leave_penalty} points 📉"
+                )
                 try:
-                    await bot.send_message(opponent_id, "❌ Your opponent has left the game.")
+                    await bot.send_message(
+                        opponent_id,
+                        f"🏆 Your opponent has left the game!\n"
+                        f"You win! Rating: +{win_points} points 📈"
+                    )
                 except:
                     pass
+                    
+                del game_dict[players]
                 return
                 
     await message.answer("❓ You are not in any lobby or game.")
@@ -296,7 +323,7 @@ async def help_command(message: types.Message):
     
     basic_commands = (
         "📋 Basic Commands:\n"
-        "/play - Join regular game lobby\n"
+        "/lobby - Join regular game lobby\n"
         "/play_bot - Play against bot\n"
         "/cancel - Leave current game or lobby\n"
         "/rating - Check your rating\n"
@@ -679,8 +706,9 @@ async def donate_command(message: types.Message):
         "✨ Access to premium lobby (/premium_lobby)\n"
         "✨ Additional +2 rating points in premium games!\n\n"
         "💳 Payment Information:\n"
-        "Price: $5/month\n"
-        "Contact @admin for details"
+        "Card: 5168 7451 6813 4952\n"
+        "Price: UAN 150 for lifetime\n"
+        "Contact @neco_12 for details"
     )
 
 @dp.message(Command("play_bot"))
