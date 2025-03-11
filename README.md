@@ -1,4 +1,4 @@
 # tic-tac-toe-game-bot
 This is my tg tic-tac-toe game bot
 <br>
-version = alpha 0.8.2
+version = alpha 0.9.5
