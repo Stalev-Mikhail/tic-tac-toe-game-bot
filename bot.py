@@ -88,7 +88,7 @@ TRANSLATIONS = {
         'left_lobby_joined_bot': "🚪You have left the lobby.",
         'error_starting_game': "Error starting game. Please try again.",
         'error_occurred': "An error occurred. Please try again.",
-        'game_started': "{game_type} started!\nYou have been matched with {opponent}. You are {symbol}. {turn_text}!{bonus}",
+        'game_started': "{game_type} started!\nYou have been matched with {opponent}. \nYou are {symbol}. {turn_text}!{bonus}",
         'your_turn': "Your turn",
         'wait_turn': "Wait for your turn",
         'premium_bonus': " (Premium bonus: +2 rating for win!)",
@@ -97,7 +97,7 @@ TRANSLATIONS = {
         'premium_active': "You already have premium status!",
         'premium_benefits': "Your benefits:\n✨ Reduced rating loss (-3 instead of -5)\n✨ Increased rating gain (+7 instead of +5)\n✨ Access to premium lobby (/premium_lobby)\n✨ Additional +2 rating points in premium games!",
         'premium_offer': "Get Premium Status!",
-        'payment_info': "Payment Information:\nCard: 5168 7451 6813 4952\nPrice: USD 5 for lifetime\nContact @neco_12 for details",
+        'payment_info': "Payment Information:\nCard: 5168 7451 6813 4952\nPrice: UAN 100 for lifetime\nContact @neco_12 for details",
         'basic_commands': "📋 Basic Commands:\n/lobby - Join regular game lobby\n/play_bot - Play against bot\n/cancel - Leave current game or lobby\n/rating - Check your rating\n/top - View top players\n/premium - Get premium status",
         'premium_commands': "\n🌟 Premium Commands:\n/premium_lobby - Join premium lobby",
         'premium_locked': "\n🔒 Get premium status to access more features!",
@@ -135,14 +135,15 @@ Your benefits:
         'not_participant': "You are not a participant in this game!",
         'error_updating_game': "Error updating game state. Please try again.",
         'bot_game_state': "🤖 Game with Bot:\n{current_player}'s turn",
-        'game_state': "{game_type} Game state:\n{player_name}'s turn",
-        'game_over': "{game_type} Game {result}!\nRating: {points:+d} points",
+        'game_state': "{game_type} state:\n{player_name}'s turn",
+        'game_over': "{game_type} {result}!\nRating: {points:+d} points",
         'bot_game_over_win': "🎉 Congratulations! You won against the bot!",
         'bot_game_over_lose': "💔 Game Over! The bot won!",
         'bot_game_over_draw': "🤝 This is a draw!",
         'bot_thinking': "Bot is thinking...",
         'donate_title': "💳 Donate to the bot developer",
         'donate_info': "💳 Card: 5168 7451 6813 4952\n💳 Contact @neco_12 for details",
+        'tell_opponent': "Use /tell_opponent to send message to him when game starts"
     },
     'ru': {
         'already_in_lobby': "Вы уже в лобби.",
@@ -179,14 +180,14 @@ Your benefits:
         'left_lobby_joined_bot': "🚪Вы покинули лобби.",
         'error_starting_game': "Ошибка при запуске игры. Попробуйте еще раз.",
         'error_occurred': "Произошла ошибка. Попробуйте еще раз.",
-        'game_started': "{game_type} начата!\nВы играете против {opponent}. Вы играете за {symbol}. {turn_text}!{bonus}",
+        'game_started': "{game_type} начата!\nВы играете против {opponent}. \nВы играете за {symbol}. {turn_text}!{bonus}",
         'your_turn': "Ваш ход",
         'wait_turn': "Ждите своего хода",
         'premium_bonus': " (Премиум бонус: +2 к рейтингу за победу!)",
         'premium_active': "У вас уже есть премиум статус!",
         'premium_benefits': "Ваши преимущества:\n✨ Уменьшенная потеря рейтинга (-3 вместо -5)\n✨ Увеличенный прирост рейтинга (+7 вместо +5)\n✨ Доступ к премиум лобби (/premium_lobby)\n✨ Дополнительные +2 очка рейтинга в премиум играх!",
         'premium_offer': "Получите Премиум Статус!",
-        'payment_info': "Информация об оплате:\nКарта: 5168 7451 6813 4952\nЦена: 5 USD навсегда\nСвяжитесь с @neco_12 для деталей",
+        'payment_info': "Информация об оплате:\nКарта: 5168 7451 6813 4952\nЦена: UAN 100 навсегда\nСвяжитесь с @neco_12 для деталей",
         'basic_commands': "📋 Основные команды:\n/lobby - Присоединиться к обычному лобби\n/play_bot - Играть против бота\n/cancel - Покинуть текущую игру или лобби\n/rating - Проверить свой рейтинг\n/top - Посмотреть топ игроков\n/premium - Получить премиум статус",
         'premium_commands': "\n🌟 Премиум команды:\n/premium_lobby - Присоединиться к премиум лобби",
         'premium_locked': "\n🔒 Получите премиум статус для доступа к дополнительным функциям!",
@@ -224,8 +225,8 @@ Your benefits:
         'not_participant': "Вы не участвуете в этой игре!",
         'error_updating_game': "Ошибка при обновлении состояния игры. Попробуйте еще раз.",
         'bot_game_state': "🤖 Игра с ботом:\nХод {current_player}",
-        'game_state': "{game_type} Состояние игры:\nХод {player_name}",
-        'game_over': "{game_type} Игра {result}!\nРейтинг: {points:+d} очков",
+        'game_state': "{game_type} Состояние:\nХод {player_name}",
+        'game_over': "{game_type} {result}!\nРейтинг: {points:+d} очков",
         'bot_game_over_win': "🎉 Поздравляем! Вы победили бота!",
         'bot_game_over_lose': "💔 Игра окончена! Бот победил!",
         'bot_game_over_draw': "🤝 Ничья с ботом!",
@@ -234,6 +235,7 @@ Your benefits:
         'language_set': "Язык изменён на русский!",
         'donate_title': "💳 Поддержать разработчика бота",
         'donate_info': "💳 Карта: 5168 7451 6813 4952\n💳 Связаться с @neco_12 для деталей",
+        'tell_opponent': "Используй /tell_opponent чтобы отправить ему сообщение, когда игра начнется",
     },
     'uk': {
         'already_in_lobby': "Ви вже в лобі.",
@@ -270,14 +272,14 @@ Your benefits:
         'left_lobby_joined_bot': "🚪Ви покинули лобі.",
         'error_starting_game': "Помилка при запуску гри. Спробуйте ще раз.",
         'error_occurred': "Сталася помилка. Спробуйте ще раз.",
-        'game_started': "{game_type} розпочата!\nВи граєте проти {opponent}. Ви граєте за {symbol}. {turn_text}!{bonus}",
+        'game_started': "{game_type} розпочата!\nВи граєте проти {opponent}. \nВи граєте за {symbol}. {turn_text}!{bonus}",
         'your_turn': "Ваш хід",
         'wait_turn': "Чекайте свого ходу",
         'premium_bonus': " (Преміум бонус: +2 до рейтингу за перемогу!)",
         'premium_active': "У вас вже є преміум статус!",
         'premium_benefits': "Ваші переваги:\n✨ Зменшена втрата рейтингу (-3 замість -5)\n✨ Збільшений приріст рейтингу (+7 замість +5)\n✨ Доступ до преміум лобі (/premium_lobby)\n✨ Додаткові +2 очки рейтингу в преміум іграх!",
         'premium_offer': "Отримайте Преміум Статус!",
-        'payment_info': "Інформація про оплату:\nКарта: 5168 7451 6813 4952\nЦіна: 5 USD назавжди\nЗв'яжіться з @neco_12 для деталей",
+        'payment_info': "Інформація про оплату:\nКарта: 5168 7451 6813 4952\nЦіна: UAN 100 назавжди\nЗв'яжіться з @neco_12 для деталей",
         'basic_commands': "📋 Основні команди:\n/lobby - Приєднатися до звичайного лобі\n/play_bot - Грати проти бота\n/cancel - Покинути поточну гру або лобі\n/rating - Перевірити свій рейтинг\n/top - Переглянути топ гравців\n/premium - Отримати преміум статус",
         'premium_commands': "\n🌟 Преміум команди:\n/premium_lobby - Приєднатися до преміум лобі",
         'premium_locked': "\n🔒 Отримайте преміум статус для доступу до додаткових функцій!",
@@ -315,8 +317,8 @@ Your benefits:
         'not_participant': "Ви не є учасником цієї гри!",
         'error_updating_game': "Помилка при оновленні стану гри. Спробуйте ще раз.",
         'bot_game_state': "🤖 Гра з ботом:\nХід {current_player}",
-        'game_state': "{game_type} Стан гри:\nХід {player_name}",
-        'game_over': "{game_type} Гра {result}!\nРейтинг: {points:+d} очків",
+        'game_state': "{game_type} Стан:\nХід {player_name}",
+        'game_over': "{game_type} {result}!\nРейтинг: {points:+d} очків",
         'bot_game_over_win': "🎉 Вітаємо! Ви перемогли бота!",
         'bot_game_over_lose': "💔 Гра закінчена! Бот переміг!",
         'bot_game_over_draw': "🤝 Нічия з ботом!",
@@ -325,6 +327,7 @@ Your benefits:
         'language_set': "Мову змінено на українську!",
         'donate_title': "💳 Підтримати розробника бота",
         'donate_info': "💳 Карта: 5168 7451 6813 4952\n💳 Зв'язатися з @neco_12 для деталей",
+        'tell_opponent': "Використовуй /tell_opponent щоб відправити йому повідомлення, коли гра почнеться",
     }
 }
 
@@ -376,6 +379,7 @@ async def lobby_command(message: types.Message):
             
     lobby.append(message.from_user.id)
     await message.answer(get_text('joined_lobby', lang=lang))
+    await message.answer(get_text('tell_opponent', lang=lang))
 
 @dp.message(Command("send_admin"))
 async def send_admin_command(message: types.Message):
@@ -383,6 +387,32 @@ async def send_admin_command(message: types.Message):
     text = " ".join(message.text.split()[1:])
     await bot.send_message(ADMIN_ID, f"Вам пришло сообщение от {user.id},{user.username},{user.first_name}\n{text}")
 
+
+@dp.message(Command("tell_opponent"))
+async def tell_opponent(message:types.Message):
+    uid = message.from_user.id
+    for i in games.keys():
+        if uid in i:
+            c = []
+            c.extend(i)
+            c.remove(uid)
+            if c:
+                target = c[0]
+            break
+    else:
+        for i in premium_games.keys():
+            c = []
+            c.extend(i)
+            c.remove(uid)
+            if c:
+                target = c[0]
+            break            
+        else:
+            lang = user_languages.get(message.from_user.id, 'en')
+            ans = get_text("not_in_game",lang)
+            await message.answer(ans)
+            return
+    await bot.send_message(target,str(message.from_user.first_name)+": "+" ".join(message.text.split()[1:]))
 @dp.message(Command("move"))
 async def move_command(message: types.Message):
     lang = user_languages.get(message.from_user.id, 'en')
@@ -549,6 +579,54 @@ async def top_command(message: types.Message):
             
     await message.answer(response)
 
+@dp.message(Command("ask_play"))
+async def ask_play_command(message: types.Message):
+    lang = user_languages.get(message.from_user.id, 'en')
+    uid = message.from_user.id
+    if uid in lobby:
+        await message.answer("You are already in lobby")
+        lobby.remove(uid)
+        await message.answer(get_text('left_lobby', lang=lang))
+    for i in list(games.keys()) + list(premium_games.keys()):
+        if uid in i:
+            await message.answer("Ты уже в игре")
+            return
+    if uid in bot_games:
+        del bot_games[uid]
+        await message.answer(get_text('left_bot_game', lang=lang))
+    target = message.text.split()[1]
+    try:
+        target = int(target)
+    except:
+        await message.answer("Неверный формат")
+        return
+    if target == uid:
+        await message.answer("Ты не можешь спросить себя")
+        return
+    await bot.send_message(target, f"{message.from_user.first_name} хочет сыграть с тобой")
+    inline = InlineKeyboardMarkup(inline_keyboard=[
+        [InlineKeyboardButton(text="Принять", callback_data=f"ask_play_accept_{uid}_{target}")]
+    ])
+    await message.answer("Запрос отправлен")
+    await bot.send_message(target, "Запрос отправлен", reply_markup=inline)
+
+@dp.callback_query(lambda c: c.data.startswith('ask_play_'))
+async def ask_play_callback(callback_query: types.CallbackQuery):
+    import random
+    lang = user_languages.get(callback_query.from_user.id, 'en')
+    data = callback_query.data.split('_')
+    uid = data[3]
+    target = data[4]
+    if callback_query.from_user.id == int(uid):
+        await callback_query.answer("You can't ask yourself")
+        return
+    await callback_query.answer("Ask play accepted")
+    if random.random() < 0.5:
+        await start_game(int(uid), int(target), "X", False)
+    else:
+        await start_game(int(target), int(uid), "X", False)
+
+
 @dp.message(Command("premium_lobby"))
 async def premium_lobby_command(message: types.Message):
     lang = user_languages.get(message.from_user.id, 'en')
@@ -658,9 +736,9 @@ def create_game_keyboard(board, current_player, game_type, game_id):
     keyboard = []
     # Используем фиксированные эмодзи с дополнительными пробелами для стабильной ширины
     symbols = {
-        "X": ".....❌.....",  # Крестик с пробелами
-        "O": ".....⭕.....",  # Кружок с пробелами
-        " ": "............"  # Пять пробелов для пустой клетки
+        "X": "_____❌_____",  # Крестик с пробелами
+        "O": "_____⭕_____",  # Кружок с пробелами
+        " ": "___________"  # Пять пробелов для пустой клетки
     }
     
     for i in range(3):
