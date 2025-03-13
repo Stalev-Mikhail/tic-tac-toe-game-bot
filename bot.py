@@ -143,7 +143,16 @@ Your benefits:
         'bot_thinking': "Bot is thinking...",
         'donate_title': "💳 Donate to the bot developer",
         'donate_info': "💳 Card: 5168 7451 6813 4952\n💳 Contact @neco_12 for details",
-        'tell_opponent': "Use /tell_opponent to send message to him when game starts"
+        'tell_opponent': "Use /tell_opponent to send message to him when game starts",
+        'ask_play_already_in_lobby': "You are already in lobby",
+        'ask_play_already_in_game': "You are already in game",
+        'ask_play_invalid_format': "Invalid format",
+        'ask_play_cant_ask_yourself': "You can't ask yourself",
+        'ask_play_request_sent': "Play request sent",
+        'ask_play_request_received': "{name} wants to play with you",
+        'ask_play_accept': "Accept",
+        'ask_play_accepted': "Play request accepted",
+        'play_again': "▶️ Play Again"
     },
     'ru': {
         'already_in_lobby': "Вы уже в лобби.",
@@ -236,6 +245,15 @@ Your benefits:
         'donate_title': "💳 Поддержать разработчика бота",
         'donate_info': "💳 Карта: 5168 7451 6813 4952\n💳 Связаться с @neco_12 для деталей",
         'tell_opponent': "Используй /tell_opponent чтобы отправить ему сообщение, когда игра начнется",
+        'ask_play_already_in_lobby': "Вы уже в лобби",
+        'ask_play_already_in_game': "Вы уже в игре",
+        'ask_play_invalid_format': "Неверный формат",
+        'ask_play_cant_ask_yourself': "Вы не можете пригласить себя",
+        'ask_play_request_sent': "Запрос на игру отправлен",
+        'ask_play_request_received': "{name} хочет сыграть с вами",
+        'ask_play_accept': "Принять",
+        'ask_play_accepted': "Запрос на игру принят",
+        'play_again': "▶️ Сыграть ещё"
     },
     'uk': {
         'already_in_lobby': "Ви вже в лобі.",
@@ -328,6 +346,15 @@ Your benefits:
         'donate_title': "💳 Підтримати розробника бота",
         'donate_info': "💳 Карта: 5168 7451 6813 4952\n💳 Зв'язатися з @neco_12 для деталей",
         'tell_opponent': "Використовуй /tell_opponent щоб відправити йому повідомлення, коли гра почнеться",
+        'ask_play_already_in_lobby': "Ви вже в лобі",
+        'ask_play_already_in_game': "Ви вже в грі",
+        'ask_play_invalid_format': "Неправильний формат",
+        'ask_play_cant_ask_yourself': "Ви не можете запросити себе",
+        'ask_play_request_sent': "Запит на гру відправлено",
+        'ask_play_request_received': "{name} хоче зіграти з вами",
+        'ask_play_accept': "Прийняти",
+        'ask_play_accepted': "Запит на гру прийнято",
+        'play_again': "▶️ Зіграти ще"
     }
 }
 
@@ -584,12 +611,12 @@ async def ask_play_command(message: types.Message):
     lang = user_languages.get(message.from_user.id, 'en')
     uid = message.from_user.id
     if uid in lobby:
-        await message.answer("You are already in lobby")
+        await message.answer(get_text('ask_play_already_in_lobby', lang=lang))
         lobby.remove(uid)
         await message.answer(get_text('left_lobby', lang=lang))
     for i in list(games.keys()) + list(premium_games.keys()):
         if uid in i:
-            await message.answer("Ты уже в игре")
+            await message.answer(get_text('ask_play_already_in_game', lang=lang))
             return
     if uid in bot_games:
         del bot_games[uid]
@@ -598,17 +625,18 @@ async def ask_play_command(message: types.Message):
     try:
         target = int(target)
     except:
-        await message.answer("Неверный формат")
+        await message.answer(get_text('ask_play_invalid_format', lang=lang))
         return
     if target == uid:
-        await message.answer("Ты не можешь спросить себя")
+        await message.answer(get_text('ask_play_cant_ask_yourself', lang=lang))
         return
-    await bot.send_message(target, f"{message.from_user.first_name} хочет сыграть с тобой")
+    target_lang = user_languages.get(target, 'en')
+    await bot.send_message(target, get_text('ask_play_request_received', lang=target_lang, name=message.from_user.first_name))
     inline = InlineKeyboardMarkup(inline_keyboard=[
-        [InlineKeyboardButton(text="Принять", callback_data=f"ask_play_accept_{uid}_{target}")]
+        [InlineKeyboardButton(text=get_text('ask_play_accept', lang=target_lang), callback_data=f"ask_play_accept_{uid}_{target}")]
     ])
-    await message.answer("Запрос отправлен")
-    await bot.send_message(target, "Запрос отправлен", reply_markup=inline)
+    await message.answer(get_text('ask_play_request_sent', lang=lang))
+    await bot.send_message(target, get_text('ask_play_request_sent', lang=target_lang), reply_markup=inline)
 
 @dp.callback_query(lambda c: c.data.startswith('ask_play_'))
 async def ask_play_callback(callback_query: types.CallbackQuery):
@@ -617,15 +645,33 @@ async def ask_play_callback(callback_query: types.CallbackQuery):
     data = callback_query.data.split('_')
     uid = data[3]
     target = data[4]
+    
+    # Проверяем, что пользователь не пытается сыграть сам с собой
     if callback_query.from_user.id == int(uid):
-        await callback_query.answer("You can't ask yourself")
+        await callback_query.answer(get_text('ask_play_cant_ask_yourself', lang=lang))
         return
-    await callback_query.answer("Ask play accepted")
+        
+    # Проверяем, что пользователь не в лобби или игре
+    if callback_query.from_user.id in lobby or callback_query.from_user.id in premium_lobby:
+        await callback_query.answer(get_text('ask_play_already_in_lobby', lang=lang))
+        return
+        
+    for i in list(games.keys()) + list(premium_games.keys()):
+        if callback_query.from_user.id in i:
+            await callback_query.answer(get_text('ask_play_already_in_game', lang=lang))
+            return
+            
+    if callback_query.from_user.id in bot_games:
+        await callback_query.answer(get_text('ask_play_already_in_game', lang=lang))
+        return
+        
+    await callback_query.answer(get_text('ask_play_accepted', lang=lang))
+    
+    # Случайно определяем, кто будет X
     if random.random() < 0.5:
         await start_game(int(uid), int(target), "X", False)
     else:
         await start_game(int(target), int(uid), "X", False)
-
 
 @dp.message(Command("premium_lobby"))
 async def premium_lobby_command(message: types.Message):
@@ -717,57 +763,91 @@ async def language_command(message: types.Message):
 
 @dp.callback_query(lambda c: c.data.startswith('lang_'))
 async def handle_language_selection(callback_query: types.CallbackQuery):
-    lang_code = callback_query.data.split('_')[1]
-    user_languages[callback_query.from_user.id] = lang_code
-    
-    # Отправляем уведомление о смене языка
-    await callback_query.answer(
-        get_text('language_set', lang=lang_code),
-        show_alert=True
-    )
-    
-    # Обновляем сообщение с выбором языка
-    await callback_query.message.edit_text(
-        get_text('select_language', lang=lang_code),
-        reply_markup=None
-    )
+    try:
+        lang_code = callback_query.data.split('_')[1]
+        if lang_code not in LANGUAGES:
+            await callback_query.answer("Invalid language code", show_alert=True)
+            return
+            
+        user_languages[callback_query.from_user.id] = lang_code
+        
+        # Отправляем уведомление о смене языка
+        await callback_query.answer(
+            get_text('language_set', lang=lang_code),
+            show_alert=True
+        )
+        
+        # Обновляем сообщение с выбором языка
+        keyboard = InlineKeyboardMarkup(inline_keyboard=[
+            [InlineKeyboardButton(text=lang_name, callback_data=f"lang_{code}") 
+             for code, lang_name in LANGUAGES.items()]
+        ])
+        
+        await callback_query.message.edit_text(
+            get_text('select_language', lang=lang_code),
+            reply_markup=keyboard
+        )
+    except Exception as e:
+        print(f"Error in handle_language_selection: {e}")
+        await callback_query.answer("Error changing language", show_alert=True)
 
 def create_game_keyboard(board, current_player, game_type, game_id):
-    keyboard = []
-    # Используем фиксированные эмодзи с дополнительными пробелами для стабильной ширины
-    symbols = {
-        "X": "_____❌_____",  # Крестик с пробелами
-        "O": "_____⭕_____",  # Кружок с пробелами
-        " ": "___________"  # Пять пробелов для пустой клетки
-    }
-    
-    for i in range(3):
-        row = []
-        for j in range(3):
-            cell = board[i][j]
-            text = symbols[cell]
-            callback_data = f"move_{game_type}_{game_id}_{i}_{j}"
-            if len(callback_data) > 64:  # Telegram limit
-                callback_data = "occupied"
-            row.append(InlineKeyboardButton(
-                text=text,
-                callback_data=callback_data if cell == " " else "occupied"
-            ))
-        keyboard.append(row)
-    
-    # Добавляем кнопку "Сыграть ещё" для законченных игр с ботом
-    if game_type == "bot" and current_player is None:
-        lang = user_languages.get(int(game_id), 'en')
-        play_again_text = {
-            'en': "▶️ Play Again",
-            'ru': "▶️ Сыграть ещё",
-            'uk': "▶️ Зіграти ще"
-        }[lang]
-        keyboard.append([InlineKeyboardButton(
-            text=play_again_text,
-            callback_data="play_again_bot"
-        )])
-    return InlineKeyboardMarkup(inline_keyboard=keyboard)
+    try:
+        keyboard = []
+        # Используем фиксированные эмодзи с дополнительными пробелами для стабильной ширины
+        symbols = {
+            "X": "_____❌_____",  # Крестик с пробелами
+            "O": "_____⭕_____",  # Кружок с пробелами
+            " ": "___________"  # Пять пробелов для пустой клетки
+        }
+        
+        # Проверяем валидность доски
+        if not isinstance(board, list) or len(board) != 3 or any(len(row) != 3 for row in board):
+            print(f"Invalid board state: {board}")
+            return InlineKeyboardMarkup(inline_keyboard=[])
+            
+        for i in range(3):
+            row = []
+            for j in range(3):
+                cell = board[i][j]
+                if cell not in symbols:
+                    cell = " "  # Используем пробел для неверных символов
+                text = symbols[cell]
+                callback_data = f"move_{game_type}_{game_id}_{i}_{j}"
+                if len(callback_data) > 64:  # Telegram limit
+                    callback_data = "occupied"
+                row.append(InlineKeyboardButton(
+                    text=text,
+                    callback_data=callback_data if cell == " " else "occupied"
+                ))
+            keyboard.append(row)
+        
+        # Добавляем кнопку "Сыграть ещё" для законченных игр
+        if current_player is None:
+            try:
+                if game_type == "bot":
+                    lang = user_languages.get(int(game_id), 'en')
+                    keyboard.append([InlineKeyboardButton(
+                        text=get_text('play_again', lang=lang),
+                        callback_data="play_again_bot"
+                    )])
+                else:
+                    game_id_tuple = eval(game_id)
+                    if isinstance(game_id_tuple, tuple) and len(game_id_tuple) == 2:
+                        lang = user_languages.get(game_id_tuple[0], 'en')
+                        # Меняем порядок игроков для избежания ошибки "you can't ask yourself"
+                        player1, player2 = game_id_tuple
+                        keyboard.append([InlineKeyboardButton(
+                            text=get_text('play_again', lang=lang),
+                            callback_data=f"ask_play_accept_{player2}_{player1}"  # Меняем порядок игроков
+                        )])
+            except Exception as e:
+                print(f"Error adding play again button: {e}")
+                    
+        return InlineKeyboardMarkup(inline_keyboard=keyboard)
+    except Exception as e:
+        print(f"Error in create_game_keyboard: {e}")
+        return InlineKeyboardMarkup(inline_keyboard=[])
 
 def format_board_message(game_type, current_player, player_name=None, is_bot_game=False):
     prefix = "🌟 Premium" if game_type == "premium" else "🎮"
@@ -818,12 +898,18 @@ async def process_callback(callback_query: types.CallbackQuery):
             if callback_query.from_user.id not in bot_games:
                 await callback_query.answer(get_text('game_not_found', lang=lang), show_alert=True)
                 return
+            game = bot_games[callback_query.from_user.id]
+            if not isinstance(game, dict) or 'board' not in game:
+                await callback_query.answer(get_text('error_occurred', lang=lang), show_alert=True)
+                return
+            board = game['board']
         else:
             try:
                 game_id_tuple = eval(game_id)
                 if not isinstance(game_id_tuple, tuple) or len(game_id_tuple) != 2:
                     raise ValueError("Invalid game ID")
-            except:
+            except Exception as e:
+                print(f"Error parsing game ID: {e}")
                 await callback_query.answer(get_text('invalid_game_data', lang=lang), show_alert=True)
                 return
                 
@@ -832,50 +918,37 @@ async def process_callback(callback_query: types.CallbackQuery):
                 await callback_query.answer(get_text('game_not_found', lang=lang), show_alert=True)
                 return
                 
+            game = current_games[game_id_tuple]
+            if not isinstance(game, list) or len(game) < 3:
+                await callback_query.answer(get_text('error_occurred', lang=lang), show_alert=True)
+                return
+                
+            board, current_player, msg_ids = game
+            
+        # Проверка валидности доски
+        if not isinstance(board, list) or len(board) != 3 or any(len(row) != 3 for row in board):
+            await callback_query.answer(get_text('error_occurred', lang=lang), show_alert=True)
+            return
+            
+        # Проверка занятости клетки
+        if board[row][col] != " ":
+            await callback_query.answer(get_text('cell_occupied', lang=lang), show_alert=True)
+            return
+            
         # Обработка игры с ботом
         if game_type == "bot":
-            game = bot_games[callback_query.from_user.id]
-            board = game['board']
-            
-            if board[row][col] != " ":
-                await callback_query.answer(get_text('cell_occupied', lang=lang), show_alert=True)
-                return
+            try:
+                # Ход игрока
+                board[row][col] = "X"
                 
-            # Ход игрока
-            board[row][col] = "X"
-            
-            # Проверка на победу игрока
-            winner = check_win(board)
-            if winner:
-                if winner == "X":
-                    await update_bot_game_state(
-                        callback_query.from_user.id,
-                        board,
-                        'bot_game_over_win'
-                    )
-                elif winner == "Draw":
-                    await update_bot_game_state(
-                        callback_query.from_user.id,
-                        board,
-                        'bot_game_over_draw'
-                    )
-                del bot_games[callback_query.from_user.id]
-                return
-                
-            # Ход бота
-            await callback_query.answer(get_text('bot_thinking', lang=lang))
-            bot_move = await make_bot_move(board)
-            if bot_move:
-                bot_row, bot_col = bot_move
-                board[bot_row][bot_col] = "O"
-                
+                # Проверка на победу игрока
                 winner = check_win(board)
                 if winner:
-                    if winner == "O":
+                    if winner == "X":
                         await update_bot_game_state(
                             callback_query.from_user.id,
                             board,
-                            'bot_game_over_lose'
+                            'bot_game_over_win'
                         )
                     elif winner == "Draw":
                         await update_bot_game_state(
@@ -884,19 +957,43 @@ async def process_callback(callback_query: types.CallbackQuery):
                             'bot_game_over_draw'
                         )
                     del bot_games[callback_query.from_user.id]
-                else:
-                    await update_bot_game_state(
-                        callback_query.from_user.id,
-                        board,
-                        'bot_game_state',
-                        current_player="X"
-                    )
+                    return
+                    
+                # Ход бота
+                await callback_query.answer(get_text('bot_thinking', lang=lang))
+                bot_move = await make_bot_move(board)
+                if bot_move:
+                    bot_row, bot_col = bot_move
+                    board[bot_row][bot_col] = "O"
+                    
+                    winner = check_win(board)
+                    if winner:
+                        if winner == "O":
+                            await update_bot_game_state(
+                                callback_query.from_user.id,
+                                board,
+                                'bot_game_over_lose'
+                            )
+                        elif winner == "Draw":
+                            await update_bot_game_state(
+                                callback_query.from_user.id,
+                                board,
+                                'bot_game_over_draw'
+                            )
+                        del bot_games[callback_query.from_user.id]
+                    else:
+                        await update_bot_game_state(
+                            callback_query.from_user.id,
+                            board,
+                            'bot_game_state',
+                            current_player="X"
+                        )
+            except Exception as e:
+                print(f"Error in bot game processing: {e}")
+                await callback_query.answer(get_text('error_occurred', lang=lang), show_alert=True)
             return
             
         # Обработка игры с игроком
-        game = current_games[game_id_tuple]
-        board, current_player, msg_ids = game
-        
         if callback_query.from_user.id not in game_id_tuple:
             await callback_query.answer(get_text('not_participant', lang=lang), show_alert=True)
             return
@@ -905,10 +1002,6 @@ async def process_callback(callback_query: types.CallbackQuery):
         is_first_player = callback_query.from_user.id == game_id_tuple[0]
         if (is_first_player and current_player != "X") or (not is_first_player and current_player != "O"):
             await callback_query.answer(get_text('not_your_turn', lang=lang), show_alert=True)
-            return
-            
-        if board[row][col] != " ":
-            await callback_query.answer(get_text('cell_occupied', lang=lang), show_alert=True)
             return
             
         # Выполнение хода
@@ -969,105 +1062,131 @@ async def process_callback(callback_query: types.CallbackQuery):
         await callback_query.answer(get_text('error_occurred', lang=lang), show_alert=True)
 
 async def handle_game_end(callback_query, game_id_tuple, winner, board, game_type, current_games, msg_ids):
-    player1_id, player2_id = game_id_tuple
-    is_first_player = callback_query.from_user.id == player1_id
-    
-    lang = user_languages.get(callback_query.from_user.id, 'en')
-    opponent_id = player2_id if is_first_player else player1_id
-    opponent_lang = user_languages.get(opponent_id, 'en')
-    
-    game_title = get_text('premium_game' if game_type == "premium" else 'regular_game', lang=lang)
-    
-    # Обновление рейтингов
-    ratings.setdefault(player1_id, 0)
-    ratings.setdefault(player2_id, 0)
-    
-    if winner == "Draw":
-        draw_points = 2 if game_type == "premium" else 1
-        ratings[player1_id] += draw_points
-        ratings[player2_id] += draw_points
-        
-        # Отправка сообщений о ничьей
-        await callback_query.message.edit_text(
-            get_text('game_over', lang=lang,
-                game_type=game_title,
-                result='draw',
-                points=draw_points
-            ),
-            reply_markup=create_game_keyboard(board, None, game_type, str(game_id_tuple))
-        )
-        
-        if msg_ids.get(opponent_id):
-            await bot.edit_message_text(
-                get_text('game_over', lang=opponent_lang,
-                    game_type=game_title,
-                    result='draw',
-                    points=draw_points
-                ),
-                chat_id=opponent_id,
-                message_id=msg_ids[opponent_id],
-                reply_markup=create_game_keyboard(board, None, game_type, str(game_id_tuple))
-            )
-    else:
-        winner_id = player1_id if winner == "X" else player2_id
-        loser_id = player2_id if winner == "X" else player1_id
-        
-        # Расчет очков
-        win_points = 7 if winner_id in premium_users else 5
-        lose_points = 3 if loser_id in premium_users else 5
-        
-        if game_type == "premium":
-            win_points += 2
+    try:
+        # Проверка валидности входных данных
+        if not isinstance(game_id_tuple, tuple) or len(game_id_tuple) != 2:
+            print(f"Invalid game_id_tuple: {game_id_tuple}")
+            return
             
-        ratings[winner_id] += win_points
-        ratings[loser_id] = max(0, ratings[loser_id] - lose_points)
+        player1_id, player2_id = game_id_tuple
+        is_first_player = callback_query.from_user.id == player1_id
         
-        # Отправка сообщений о победе/поражении
-        if callback_query.from_user.id == winner_id:
-            await callback_query.message.edit_text(
-                get_text('game_over', lang=lang,
-                    game_type=game_title,
-                    result='win',
-                    points=win_points
-                ),
-                reply_markup=create_game_keyboard(board, None, game_type, str(game_id_tuple))
-            )
-            
-            if msg_ids.get(opponent_id):
-                await bot.edit_message_text(
-                    get_text('game_over', lang=opponent_lang,
+        lang = user_languages.get(callback_query.from_user.id, 'en')
+        opponent_id = player2_id if is_first_player else player1_id
+        opponent_lang = user_languages.get(opponent_id, 'en')
+        
+        game_title = get_text('premium_game' if game_type == "premium" else 'regular_game', lang=lang)
+        
+        # Инициализация рейтингов
+        ratings.setdefault(player1_id, 0)
+        ratings.setdefault(player2_id, 0)
+        
+        if winner == "Draw":
+            try:
+                draw_points = 2 if game_type == "premium" else 1
+                ratings[player1_id] += draw_points
+                ratings[player2_id] += draw_points
+                
+                # Отправка сообщений о ничьей
+                await callback_query.message.edit_text(
+                    get_text('game_over', lang=lang,
                         game_type=game_title,
-                        result='lose',
-                        points=-lose_points
+                        result='draw',
+                        points=draw_points
                     ),
-                    chat_id=opponent_id,
-                    message_id=msg_ids[opponent_id],
-                    reply_markup=create_game_keyboard(board, None, game_type, str(game_id_tuple))
-                )
-        else:
-            await callback_query.message.edit_text(
-                get_text('game_over', lang=lang,
-                    game_type=game_title,
-                    result='lose',
-                    points=-lose_points
-                ),
-                reply_markup=create_game_keyboard(board, None, game_type, str(game_id_tuple))
-            )
-            
-            if msg_ids.get(opponent_id):
-                await bot.edit_message_text(
-                    get_text('game_over', lang=opponent_lang,
-                        game_type=game_title,
-                        result='win',
-                        points=win_points
-                    ),
-                    chat_id=opponent_id,
-                    message_id=msg_ids[opponent_id],
                     reply_markup=create_game_keyboard(board, None, game_type, str(game_id_tuple))
                 )
                 
-    # Удаление игры
-    del current_games[game_id_tuple]
+                if msg_ids and opponent_id in msg_ids:
+                    try:
+                        await bot.edit_message_text(
+                            get_text('game_over', lang=opponent_lang,
+                                game_type=game_title,
+                                result='draw',
+                                points=draw_points
+                            ),
+                            chat_id=opponent_id,
+                            message_id=msg_ids[opponent_id],
+                            reply_markup=create_game_keyboard(board, None, game_type, str(game_id_tuple))
+                        )
+                    except Exception as e:
+                        print(f"Error sending draw message to opponent: {e}")
+            except Exception as e:
+                print(f"Error handling draw: {e}")
+        else:
+            try:
+                winner_id = player1_id if winner == "X" else player2_id
+                loser_id = player2_id if winner == "X" else player1_id
+                
+                # Расчет очков
+                win_points = 7 if winner_id in premium_users else 5
+                lose_points = 3 if loser_id in premium_users else 5
+                
+                if game_type == "premium":
+                    win_points += 2
+                    
+                ratings[winner_id] += win_points
+                ratings[loser_id] = max(0, ratings[loser_id] - lose_points)
+                
+                # Отправка сообщений о победе/поражении
+                if callback_query.from_user.id == winner_id:
+                    await callback_query.message.edit_text(
+                        get_text('game_over', lang=lang,
+                            game_type=game_title,
+                            result='win',
+                            points=win_points
+                        ),
+                        reply_markup=create_game_keyboard(board, None, game_type, str(game_id_tuple))
+                    )
+                    
+                    if msg_ids and opponent_id in msg_ids:
+                        try:
+                            await bot.edit_message_text(
+                                get_text('game_over', lang=opponent_lang,
+                                    game_type=game_title,
+                                    result='lose',
+                                    points=-lose_points
+                                ),
+                                chat_id=opponent_id,
+                                message_id=msg_ids[opponent_id],
+                                reply_markup=create_game_keyboard(board, None, game_type, str(game_id_tuple))
+                            )
+                        except Exception as e:
+                            print(f"Error sending win/lose messages: {e}")
+                else:
+                    await callback_query.message.edit_text(
+                        get_text('game_over', lang=lang,
+                            game_type=game_title,
+                            result='lose',
+                            points=-lose_points
+                        ),
+                        reply_markup=create_game_keyboard(board, None, game_type, str(game_id_tuple))
+                    )
+                    
+                    if msg_ids and opponent_id in msg_ids:
+                        await bot.edit_message_text(
+                            get_text('game_over', lang=opponent_lang,
+                                game_type=game_title,
+                                result='win',
+                                points=win_points
+                            ),
+                            chat_id=opponent_id,
+                            message_id=msg_ids[opponent_id],
+                            reply_markup=create_game_keyboard(board, None, game_type, str(game_id_tuple))
+                        )
+            except Exception as e:
+                print(f"Error sending win/lose messages: {e}")
+                
+        # Удаление игры
+        if game_id_tuple in current_games:
+            del current_games[game_id_tuple]
+            
+    except Exception as e:
+        print(f"Error in handle_game_end: {e}")
+        try:
+            await callback_query.answer(get_text('error_occurred', lang=lang), show_alert=True)
+        except:
+            pass
 
 @dp.callback_query(lambda c: c.data == "occupied")
 async def occupied_cell_callback(callback_query: types.CallbackQuery):
